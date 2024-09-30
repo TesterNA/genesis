@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hourly Image App</title>
+
+    <meta property="og:title" content="Hourly Image App">
+    <meta property="og:description" content="Перегляньте символи за допомогою коду.">
+    <meta property="og:url" content="https://your-website.com/your-page">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://your-website.com/images/symbol/0.png">
+    <meta property="og:image" content="https://your-website.com/images/symbol/1.png">
+    <meta property="og:image" content="https://your-website.com/images/symbol/2.png">
+    <meta property="og:image" content="https://your-website.com/images/symbol/3.png">
+    <meta property="og:image:alt" content="Symbol 0">
+    <meta property="og:image:alt" content="Symbol 1">
+    <meta property="og:image:alt" content="Symbol 2">
+    <meta property="og:image:alt" content="Symbol 3">
+    <meta property="og:image:width" content="80">
+    <meta property="og:image:height" content="80">
+
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            flex-direction: column;
+            margin: 0;
+            color : #FFFFFF !important;
+            background-image: url('images/bg.png');
+            background-repeat: repeat;
+            background-size: 500px 500px;
+        }
+        .image-container {
+            display: flex;
+            background-color: rgba(26, 34, 56, 0.6);
+            padding: 30px;
+            outline: #9daaf2 dashed 2px;
+            outline-offset: -4px;
+            border-radius: 1rem;
+        }
+        img {
+            max-width: 180px;
+            max-height: 180px;
+            margin: 0 5px;
+            border-radius: 1rem;
+        }
+        .current-image {
+            margin-top: 1em;
+        }
+    </style>
+</head>
+<body>
+<div class="image-container" id="symbolImages"></div>
+<div class="current-image" id="currentImage">Current Code: Calculating...</div>
+
+<script>
+    function getURLParameter(name) {
+        const params = new URLSearchParams(window.location.search);
+        return params.get(name);
+    }
+
+    function updateSymbols() {
+        const codeParam = getURLParameter('code');
+        if (!codeParam || codeParam.length !== 4) {
+            alert('Code must be provided in the URL as ?code=XXXX, where XXXX is a 4-digit number.');
+            return;
+        }
+
+        const symbolArray = codeParam.split('').map(Number);
+        const symbolImagesContainer = document.getElementById('symbolImages');
+        symbolImagesContainer.innerHTML = '';
+
+
+        symbolArray.forEach(symbol => {
+            const img = document.createElement('img');
+            img.src = `images/symbol/${symbol}.png`;
+            symbolImagesContainer.appendChild(img);
+        });
+
+        document.getElementById('currentImage').innerText = `Current Code: [${symbolArray.join(', ')}]`;  // Display the code
+    }
+    updateSymbols();
+</script>
+</body>
+</html>
